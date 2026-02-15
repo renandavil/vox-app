@@ -1,0 +1,317 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* --- PALETA DE CORES PREMIUM (Cyber/Dark) --- */
+
+  /* Fundos */
+  --bg-app: #050505;
+  /* Quase preto absoluto */
+  --bg-surface: #0a0a0a;
+  /* Superfícies de cartões */
+  --bg-elevated: #121212;
+  /* Modais e popovers */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+
+  /* Cores de Ação (Vibrantes) */
+  --primary: #10b981;
+  /* Emerald Green (Sucesso/Ação) */
+  --primary-glow: rgba(16, 185, 129, 0.5);
+  --primary-dim: rgba(16, 185, 129, 0.1);
+
+  --secondary: #8b5cf6;
+  /* Violet (Mistério/IA) */
+  --secondary-glow: rgba(139, 92, 246, 0.5);
+
+  --accent: #f59e0b;
+  /* Amber (Avisos/Destaques) */
+
+  /* Textos */
+  --text-main: #ffffff;
+  --text-muted: #a1a1aa;
+  /* Zinc 400 */
+  --text-dim: #52525b;
+  /* Zinc 600 */
+
+  /* Bordas */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.15);
+
+  /* Fontes */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Animações */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* --- SCROLLBAR CUSTOMIZADA --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-app);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* --- BACKGROUND EFEITOS (Aurora Boreal) --- */
+body::before {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, var(--primary-dim) 0%, transparent 70%);
+  filter: blur(100px);
+  opacity: 0.6;
+  z-index: -1;
+  animation: float-blob 20s infinite alternate ease-in-out;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -20%;
+  right: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+  filter: blur(100px);
+  opacity: 0.5;
+  z-index: -1;
+  animation: float-blob-reverse 25s infinite alternate ease-in-out;
+}
+
+@keyframes float-blob {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(10%, 10%);
+  }
+}
+
+@keyframes float-blob-reverse {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(-10%, -10%);
+  }
+}
+
+/* --- TIPOGRAFIA --- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-main);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #fff, #a1a1aa);
+  /* Prata Metálico */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-primary {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  /* Verde Esmeralda */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.3));
+}
+
+.text-gradient-secondary {
+  background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+  /* Roxo Neon */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* --- COMPONENTES --- */
+
+/* Botões */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.8rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s var(--ease-spring);
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  letter-spacing: -0.01em;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #000;
+  box-shadow: 0 0 0px var(--primary-glow);
+  /* Glow desativado em repouso */
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 40px -10px var(--primary-glow);
+  background: #34d399;
+  /* Ligeiramente mais claro */
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #fff;
+}
+
+/* Cards (Glassmorphism) */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.glass {
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover,
+.glass:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Upload Zone (Analyzer) */
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: 20px;
+  padding: 4rem 2rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.upload-zone:hover {
+  border-color: var(--primary);
+  background: rgba(16, 185, 129, 0.05);
+  transform: scale(1.02);
+}
+
+/* Section Spacing */
+.section {
+  padding: 8rem 0;
+  position: relative;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Utilitários de Animação */
+.fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-in-delay-1 {
+  animation-delay: 0.2s;
+}
+
+.fade-in-delay-2 {
+  animation-delay: 0.4s;
+}
+
+.fade-in-delay-3 {
+  animation-delay: 0.6s;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Badge Premium */
+.badge-premium {
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  padding: 2px;
+  border-radius: 99px;
+  display: inline-block;
+}
+
+.badge-premium-content {
+  background: #000;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

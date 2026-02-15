@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  isPremium     Boolean   @default(false)
+  usageCount    Int       @default(0)
+  logs          AnalysisLog[]
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// NOVO: Rastreamento de Dispositivos para Evitar Abuso
+model DeviceUsage {
+  id          String   @id @default(uuid())
+  ipHash      String   @unique // Hash do IP
+  fingerprint String?  // Opcional: Fingerprint do navegador/PC
+  usageCount  Int      @default(0)
+  lastUsedAt  DateTime @default(now())
+}
+
+// NOVO: Logs de Análise (Para o Admin ver o que está acontecendo)
+model AnalysisLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  type      String   // "CHAT" ou "STORY"
+  sentiment String?  // Resultado da IA
+  advice    String?  // Conselho da IA
+  createdAt DateTime @default(now())
+
+  user      User?    @relation(fields: [userId], references: [id])
+}
