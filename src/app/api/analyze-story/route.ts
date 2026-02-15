@@ -5,13 +5,14 @@ import { getSession } from '@/lib/auth';
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth-options";
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-
+// OpenAI client initialized inside handler to avoid build errors
 const rateLimit = new Map<string, number>();
 
 export async function POST(request: Request) {
+    const openai = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY,
+    });
+
     try {
         console.log("--- START REQUEST: /api/analyze-story (STORY) ---");
 
